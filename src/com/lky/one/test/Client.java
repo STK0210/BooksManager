@@ -50,4 +50,8 @@ public class Client {
 			System.out.print(user.getUname() + "\t");
 		}
 	}
+	
+	public static void TestGit() {
+		System.out.println("gitTest");
+	}
 }
