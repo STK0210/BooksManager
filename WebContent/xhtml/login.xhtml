@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Insert title here</title>
+</h:head>
+<h:body>
+	<h:form id="loginForm">
+		<h2>欢迎使用图书管理系统</h2>
+		<fieldset>
+			<legend>登陆界面</legend>
+			<h:panelGrid columns="3">
+				<h:outputLabel value="#{msgs.language}"></h:outputLabel>
+				<h:selectOneListbox id="language" value="chinese" size="1" label="#{msgs.language}" valueChangeListener="#{userCtrl.changeLanguage}" onchange="submit()" immediate="true">
+					<f:selectItem itemValue="english" itemLabel="English"></f:selectItem>
+					<f:selectItem itemValue="chinese" itemLabel="中文"></f:selectItem>
+				</h:selectOneListbox>
+				<h:message for="language"></h:message>
+
+				<h:outputLabel value="#{msgs.username}"></h:outputLabel>
+				<h:inputText id="uname" value="#{user.uname}" required="true" label="#{msgs.username}">
+				</h:inputText>
+				<h:message for="uname"></h:message>
+
+				<h:outputLabel value="#{msgs.password}"></h:outputLabel>
+				<h:inputText id="password" value="#{user.password}" required="true" label="#{msgs.password}">
+				</h:inputText>
+				<h:message for="password"></h:message>
+
+				<h:commandButton id="login" action="#{userCtrl.login}" value="#{msgs.login}" actionListener="#{userCtrl.loginClick}">
+				</h:commandButton>
+				<h:message for="login" style="color:Red"></h:message>
+			</h:panelGrid>
+		</fieldset>
+	</h:form>
+</h:body>
+</html>

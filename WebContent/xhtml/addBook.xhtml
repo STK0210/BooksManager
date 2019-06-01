@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:c="http://java.sun.com/jsp/jstl/core">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Insert title here</title>
+<style>
+.column1 {
+	width: 10%;
+}
+
+.column2 {
+	width: 40%;
+}
+
+.column3 {
+	width: 50%;
+}
+</style>
+<script>
+	function clear() {
+		alert("执行了");
+		var selects = document.getElementById("bid");
+		out.print(selects);
+	}
+</script>
+</head>
+<body>
+	<!-- header -->
+	<h:graphicImage value="#{resource['images:header.jpg']}"></h:graphicImage>
+	<br />
+	<c:if test="${not empty user.uname }">
+		<span>欢迎${user.uname }</span>
+		<span>
+			<a href="/BooksManager/StatelessServlet">查询图书</a>
+		</span>
+		<span>
+			<a href="addBook.xhtml">添加图书</a>
+		</span>
+		<span>
+			<!-- <a href="${pageContext.request.contextPath}/OrderServlet?method=findMyOrdersWithPage&num=1">图书列表</a> -->
+			<a href="/BooksManager/StatefulServlet">图书列表</a>
+		</span>
+	</c:if>
+	<span>
+		<a href="../jsp/register.jsp">注册</a>
+	</span>
+
+	<!-- body -->
+	<h:form id="addBookForm">
+		<h2>欢迎使用图书管理系统</h2>
+		<fieldset>
+			<legend>添加图书界面</legend>
+			<h:panelGrid columns="3" columnClasses="column1,column2,column3" border="1">
+				<h:outputLabel value="图书名字:"></h:outputLabel>
+				<h:inputText id="bname" value="#{book.bname}" required="true" converter="stringNotNullConverter" onchange="submit()" immediate="true">
+				</h:inputText>
+				<h:message for="bname" style="float: left;"></h:message>
+
+				<h:outputLabel value="图书ISBN编号:"></h:outputLabel>
+				<h:inputText id="bnum" value="#{book.bnum}" required="true" converter="stringNotNullConverter" onchange="submit()" immediate="true">
+					<f:validator validatorId="ISBNValidator" />
+				</h:inputText>
+				<h:message for="bnum" style="float: left;"></h:message>
+
+				<h:outputLabel value="作者:"></h:outputLabel>
+				<h:inputText id="authers" value="#{book.authers}" required="true" label="#{msgs.authers}" converter="authorConverter" onchange="submit()" immediate="true">
+				</h:inputText>
+				<h:message for="authers" style="float: left;"></h:message>
+
+				<h:outputLabel value="出版日期:"></h:outputLabel>
+				<h:inputText id="pubDate" value="#{book.pubDate}" required="true" onchange="submit()" immediate="true">
+					<f:convertDateTime pattern="yyyy年M月" />
+				</h:inputText>
+				<h:message for="pubDate" style="float: left;"></h:message>
+
+				<h:outputLabel value="价格:"></h:outputLabel>
+				<h:inputText id="price" value="#{book.price}" required="true" label="#{msgs.price}" onchange="submit()">
+					<f:convertNumber maxFractionDigits="1"></f:convertNumber>
+				</h:inputText>
+				<h:message for="price" style="float: left;"></h:message>
+
+				<h:outputLabel value="图书分类:"></h:outputLabel>
+				<h:selectOneListbox id="kind" value="#{book.kind}" size="1" required="true" valueChangeListener="#{bookCtrl.selectKind}" onchange="submit()" immediate="true" style="float:left;">
+					<f:selectItem itemLabel="--请选择--"></f:selectItem>
+	                	<f:selectItem itemValue="1" itemLabel="计算机"></f:selectItem>
+	              		<f:selectItem itemValue="2" itemLabel="文学"></f:selectItem>
+	              	    <f:selectItem itemValue="3" itemLabel="管理"></f:selectItem>
+	              	    <f:selectItem itemValue="4" itemLabel="其他"></f:selectItem>
+					<f:validator validatorId="NullValidator"></f:validator>
+           		</h:selectOneListbox>
+				<h:message for="kind"></h:message>
+
+				<h:outputLabel value="图书子分类:"></h:outputLabel>
+				<h:selectOneListbox id="bid" value="#{book.bid}" size="1" style="float:left" required="true" onchange="submit()" immediate="true">
+	                <f:selectItem itemLabel="--请选择--"></f:selectItem>
+					<c:forEach var="subKind" items="#{book.subKind}" varStatus="i">
+	                    <f:selectItem itemValue="#{subKind.value}" itemLabel="#{subKind.key}"></f:selectItem>
+	                </c:forEach>
+				</h:selectOneListbox>
+				<h:message for="bid"></h:message>
+
+				<h:commandButton id="addBook" action="#{bookCtrl.addBook}" value="确认添加" actionListener="#{bookCtrl.addClick}">
+				</h:commandButton>
+				<h:commandButton id="clear" value="取消" type="reset" onclick="clear()">
+				</h:commandButton>
+				<h:message for="addBook" style="float: left;color:Red"></h:message>
+
+			</h:panelGrid>
+		</fieldset>
+	</h:form>
+	<!-- footer -->
+	<p align="left">
+		<font class="9p" color="#111111">
+			CopyRight @ JiLin University
+			<br />
+			信息管理：软件学院&nbsp;&nbsp;&nbsp;&nbsp;技术维护：软件二班李柯雨
+			<br />
+			详细地址：前进大街2699号计算机楼&nbsp;&nbsp;&nbsp;&nbsp;Email:liky5516@jlu.edu.cn
+		</font>
+	</p>
+</body>
+</html>
